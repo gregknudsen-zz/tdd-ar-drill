@@ -12,23 +12,23 @@ describe Player do
   end
 
   it "is invalid without a firstname" do
-    expect(Player.new(firstname: nil)).to have(1)
-.errors_on(:firstname)  
+    player = Player.create(firstname: nil)
+    expect(player.errors.messages[:firstname]).to include("can't be blank")
   end
 
   it "is invalid without a lastname" do
-    expect(Player.new(lastname: nil)).to have(1)
-.errors_on(:lastname) 
+    player = Player.create(lastname: nil)
+    expect(player.errors.messages[:lastname]).to include("can't be blank")
   end
 
   it "is invalid without a phone number" do
-    expect(Player.new(phonenumber: nil)).to have(1)
-.errors_on(:phonenumber) 
+    player = Player.create(phonenumber: nil)
+    expect(player.errors.messages[:phonenumber]).to include("can't be blank")
   end
 
   it "is invalid without a hometown" do
-    expect(Player.new(hometown: nil)).to have(1)
-.errors_on(:hometown) 
+    player = Player.create(hometown: nil)
+    expect(player.errors.messages[:hometown]).to include("can't be blank")  
   end
 
   it "is invalid with a duplicate phone number" do
@@ -36,11 +36,11 @@ describe Player do
       lastname: 'James',
       phonenumber: '666-6666',
       hometown: 'Akron')
-    player = Player.new(firstname: 'Dwyane',
+    player = Player.create(firstname: 'Dwyane',
       lastname: 'Wade',
       phonenumber: '666-6666',
       hometown: 'Chicago')
-    expect(player).to have(1).errors_on(:phonenumber)
+    expect(player.errors.messages[:phonenumber]).to include("has already been taken") 
   end
 
   it "has a #name method which returns the full name of the Player" do
@@ -74,25 +74,28 @@ describe Sponsor do
   end
 
   it "is invalid without a name" do
-    expect(Sponsor.new(name: nil)).to have(1).errors_on(:name)
+    sponsor = Sponsor.create(name: nil)
+    expect(sponsor.errors.messages[:name]).to include("can't be blank")
   end
 
   it "is invalid without a product" do
-    expect(Sponsor.new(product: nil)).to have(1).errors_on(:product)
+    sponsor = Sponsor.create(product: nil)
+    expect(sponsor.errors.messages[:product]).to include("can't be blank")
   end
 
   it "is invalid without an origin" do
-    expect(Sponsor.new(origin: nil)).to have(1).errors_on(:origin)
+    sponsor = Sponsor.create(origin: nil)
+    expect(sponsor.errors.messages[:origin]).to include("can't be blank")
   end
 
   it "is invalid with a duplicate name" do
     Sponsor.create(name: "Lucky Strike",
       product: "tobacco",
       origin: "USA")
-    sponsor = Sponsor.new(name: "Lucky Strike",
+    sponsor = Sponsor.create(name: "Lucky Strike",
       product: "bowling balls",
       origin: "New Zealand")
-    expect(sponsor).to have(1).errors_on(:name)
+    expect(sponsor.errors.messages[:name]).to include("has already been taken") 
   end
 end
 
@@ -104,19 +107,21 @@ describe Team do
   end
 
   it "is invalid without a name" do
-    expect(Team.new(name: nil)).to have(1).errors_on(:name)
+    team = Team.create(name: nil)
+    expect(team.errors.messages[:name]).to include("can't be blank")
   end
 
   it "is invalid without a city" do
-    expect(Team.new(city: nil)).to have(1).errors_on(:city)
+    team = Team.create(city: nil)
+    expect(team.errors.messages[:city]).to include("can't be blank")
   end
 
   it "is invalid with a duplicate name" do
     Team.create(name: "Celtics",
       city: "Boston")
-    team = Team.new(name: "Celtics",
+    team = Team.create(name: "Celtics",
       city: "Auckland")
-    expect(team).to have(1).errors_on(:name)
+    expect(team.errors.messages[:name]).to include("has already been taken") 
   end
 
   it "has many players" do
