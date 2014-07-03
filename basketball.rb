@@ -13,12 +13,7 @@ ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
 # Repeat the above template for each table you need to create
 
 ActiveRecord::Migration.create_table :players do |t|
-  t.string :firstname
-  t.string :lastname
-  t.string :phonenumber
-  t.string :hometown
 
-  t.timestamps
 end
 
 
